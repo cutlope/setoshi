@@ -12,9 +12,6 @@ extern int yylineno;
 %token TRUE
 %token FALSE
 %token POINT
-%token LOWERCASE
-%token UPPERCASE
-%token CHAR_VALUE
 %token INTEGER_VALUE
 %token NUMBER_VALUE
 %token FLOAT_VALUE
@@ -102,14 +99,6 @@ bool :
     TRUE
     | FALSE
 
-string :
-    char
-    | char string
-
-char:
-    LOWERCASE
-    | UPPERCASE
-
 var_new :
     form IDENTIFIER
 
@@ -172,7 +161,7 @@ return :
     return IDENTIFIER
 
 comment :
-    COMMENT_START string COMMENT_START
+    COMMENT_START IDENTIFIER COMMENT_START
 
 set :
     L_CB set_elements R_CB
@@ -181,7 +170,7 @@ set_elements :
     set_element | set_element set_elements
 
 set_element :
-    INTEGER_VALUE | char | string
+    INTEGER_VALUE | IDENTIFIER
 
 set_new :
     IDENTIFIER EQUALS_TO set
@@ -233,7 +222,6 @@ input :
 
 output :
     OUTPUT IDENTIFIER
-    | OUTPUT  string
     | OUTPUT  INTEGER_VALUE
     | OUTPUT  set
 

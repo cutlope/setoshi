@@ -26,6 +26,8 @@ extern int yylineno;
 %token COMMA
 %token DIVISION_OPERATOR
 %token MULTIPLICATION_OPERATOR
+%token ADDITION_OPERATOR
+%token SUBTRACTION_OPERATOR
 %token AND
 %token OR
 %token LT
@@ -56,6 +58,7 @@ extern int yylineno;
 %token WHILE
 %token FOREACH
 %token FUNCTION
+%token RETURN
 %token END_PROGRAM
 %token IDENTIFIER
 %token COMMENT
@@ -127,7 +130,8 @@ assign_new :
 operator :
     DIVISION_OPERATOR
     | MULTIPLICATION_OPERATOR
-    | SIGN
+    | ADDITION_OPERATOR
+    | SUBTRACTION_OPERATOR
 
 expr :
     identifier operator identifier
@@ -175,6 +179,9 @@ function_new :
 
 function_call :
     function_name L_PR params R_PR
+
+return :
+    return identifier
 
 comment :
     COMMENT_START string COMMENT_START

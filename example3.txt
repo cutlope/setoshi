@@ -5,9 +5,7 @@ start {
         out set
     }
 
-    readFile = read ( pathToSetFile )
-
-    set = in readFile
+    set = read ( pathToSetFile )
 
     removeElement ( set , 5 )
 

@@ -86,11 +86,10 @@ statement :
         | function_new
 
 form :
-    INTEGER_VALUE
-    | bool
-    | char
-    | float
-    | string
+    INTEGER
+    | BOOLEAN
+    | CHAR
+    | FLOAT
 
 number :
     INTEGER_VALUE
@@ -112,16 +111,10 @@ char:
     | UPPERCASE
 
 var_new :
-    form identifier
-
-identifier :
-    string
-    | string identifier
-    | string number
-    | string number identifier
+    form IDENTIFIER
 
 assign :
-    identifier EQUALS_TO expr
+    IDENTIFIER EQUALS_TO expr
 
 assign_new :
     var_new EQUALS_TO expr
@@ -133,9 +126,9 @@ operator :
     | SUBTRACTION_OPERATOR
 
 expr :
-    identifier operator identifier
-    | identifier EQUALS_TO identifier
-    | identifier comparator identifier
+    IDENTIFIER operator IDENTIFIER
+    | IDENTIFIER EQUALS_TO IDENTIFIER
+    | IDENTIFIER comparator IDENTIFIER
 
 comparator :
     AND | OR | LT
@@ -144,7 +137,7 @@ comparator :
     | IS_NOT_EQUAL_STRICT
 
 foreach_expr :
-    identifier AS var_new
+    IDENTIFIER AS var_new
 
 conditional :
     if
@@ -168,7 +161,7 @@ foreach_loop :
     FOREACH L_PR foreach_expr R_PR L_CB statements R_CB
 
 function_name :
-    identifier
+    IDENTIFIER
 
 params :
     var_new
@@ -181,7 +174,7 @@ function_call :
     function_name L_PR params R_PR
 
 return :
-    return identifier
+    return IDENTIFIER
 
 comment :
     COMMENT_START string COMMENT_START
@@ -196,34 +189,34 @@ set_element :
     INTEGER_VALUE | char | string
 
 set_new :
-    identifier EQUALS_TO set
+    IDENTIFIER EQUALS_TO set
 
 set_del :
-    DELETE_SET L_PR identifier R_PR
+    DELETE_SET L_PR IDENTIFIER R_PR
 
 set_add :
-    ADD_TO_SET L_PR set_elements COMMA identifier R_PR
+    ADD_TO_SET L_PR set_elements COMMA IDENTIFIER R_PR
 
 set_remove :
-    REMOVE_FROM_SET L_PR set_elements COMMA identifier R_PR
+    REMOVE_FROM_SET L_PR set_elements COMMA IDENTIFIER R_PR
 
 set_union  :
-    UNION_SET L_PR  identifier COMMA identifier R_PR
+    UNION_SET L_PR  IDENTIFIER COMMA IDENTIFIER R_PR
 
 set_intersection  :
-    INTERSECTION_SET L_PR identifier COMMA identifier R_PR
+    INTERSECTION_SET L_PR IDENTIFIER COMMA IDENTIFIER R_PR
 
 is_superset :
-    SUPERSET L_PR identifier R_PR
+    SUPERSET L_PR IDENTIFIER R_PR
 
 is_subset :
-    SUBSET L_PR identifier R_PR
+    SUBSET L_PR IDENTIFIER R_PR
 
 is_emptyset :
-    EMPTYSET L_PR identifier R_PR
+    EMPTYSET L_PR IDENTIFIER R_PR
 
 is_equalset :
-    EQUALSET L_PR identifier R_PR
+    EQUALSET L_PR IDENTIFIER R_PR
 
 file_path :
     string
@@ -238,7 +231,7 @@ input :
     INPUT read_file
 
 output :
-    OUTPUT identifier
+    OUTPUT IDENTIFIER
     | OUTPUT  string
     | OUTPUT  INTEGER_VALUE
     | OUTPUT  set

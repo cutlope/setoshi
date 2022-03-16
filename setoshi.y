@@ -13,7 +13,6 @@ extern int yylineno;
 %token FALSE
 %token POINT
 %token INTEGER_VALUE
-%token NUMBER_VALUE
 %token FLOAT_VALUE
 %token L_CB
 %token R_CB
@@ -42,6 +41,7 @@ extern int yylineno;
 %token REMOVE_FROM_SET
 %token UNION_SET
 %token INTERSECTION_SET
+%token INCLUSION_SET
 %token SUPERSET
 %token EMPTYSET
 %token EQUALSET
@@ -92,12 +92,8 @@ form :
     | CHAR
     | FLOAT
 
-number :
-    INTEGER_VALUE
-    | INTEGER_VALUE number
-
 float :
-    number POINT number
+    FLOAT_VALUE
 
 operator :
     DIVISION_OPERATOR
@@ -106,8 +102,9 @@ operator :
     | SUBTRACTION_OPERATOR
 
 expr :
-    IDENTIFIER operator IDENTIFIER
-    | IDENTIFIER EQUALS_TO IDENTIFIER
+    set_element operator set_element
+    | IDENTIFIER EQUALS_TO expr
+    | IDENTIFIER EQUALS_TO set_element
     | IDENTIFIER comparator IDENTIFIER
     | IDENTIFIER EQUALS_TO io_opr
     | IDENTIFIER EQUALS_TO set_opr
@@ -154,7 +151,7 @@ return :
     RETURN IDENTIFIER
 
 comment :
-    COMMENT_START IDENTIFIER COMMENT_START
+    COMMENT_START IDENTIFIER COMMENT_END
 
 set :
     L_CB set_elements R_CB
@@ -164,6 +161,7 @@ set_opr :
     | set_new
     | set_union
     | set_intersection
+    | set_inclusion
     | is_superset
     | is_subset
     | is_emptyset
@@ -180,9 +178,9 @@ set_elements :
     | set_element COMMA set_elements
 
 set_element :
-    number
-    | IDENTIFIER
+    IDENTIFIER
     | float
+    | INTEGER_VALUE
 
 set_new :
     IDENTIFIER EQUALS_TO set
@@ -201,6 +199,9 @@ set_union  :
 
 set_intersection  :
     INTERSECTION_SET L_PR IDENTIFIER COMMA IDENTIFIER R_PR
+
+set_inclusion :
+    INCLUSION_SET L_PR set_element COMMA IDENTIFIER R_PR
 
 is_superset :
     SUPERSET L_PR IDENTIFIER R_PR

@@ -129,6 +129,7 @@ expr :
     IDENTIFIER operator IDENTIFIER
     | IDENTIFIER EQUALS_TO IDENTIFIER
     | IDENTIFIER comparator IDENTIFIER
+    | IDENTIFIER EQUALS_TO io_opr
 
 comparator :
     AND | OR | LT
@@ -213,7 +214,13 @@ is_equalset :
     EQUALSET L_PR IDENTIFIER R_PR
 
 file_path :
-    string
+    IDENTIFIER
+
+io_opr :
+    read_file
+    | write_file
+    | input
+    | output
 
 read_file :
     READ_FILE L_PR file_path R_PR

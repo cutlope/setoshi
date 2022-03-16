@@ -1,0 +1,17 @@
+start {
+
+set = { 2 , 3 }
+
+if ( inclusion ( 2 , set ) ) {
+	
+	return TRUE
+
+}
+
+else {
+
+	return FALSE
+
+}
+
+} end

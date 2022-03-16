@@ -1,0 +1,93 @@
+start {
+
+    set = read ( pathToSetFile )
+
+    if ( emptySet ( set ) ) {
+        out givensetempty
+    }
+
+    else {
+        foreach ( set as setElement ) {
+            out setElement
+        }
+    }
+
+    set1 = { 4 , 5 , 6 , 7 }
+    set2 = { 1 , 2 , 3 }
+    set3 = union ( set1 , set2 )
+
+    out set3
+
+    write ( unionSetPath )  
+
+    delete_set ( set1 )
+    delete_set ( set2 )
+    delete_set ( set3 )
+
+    function removeElement ( set , element ) {
+        remove_from_set ( element , set )
+        out set
+    }
+
+    set = read ( pathToSetFile )
+
+    removeElement ( set , 5 )
+
+    out set
+
+
+/* assignment */
+division = 6 / 3
+multiplication = 9 * 5
+addition = 2 + 2
+subtraction = 1 - 2
+
+set = { 1 , 2 , 3 , 4 }
+
+/* expressions */
+while ( division < multiplication ) {
+
+	if ( emptyset ( set ) ) {
+
+		add_to_set ( 3 , set )		
+
+	}
+	
+	else {
+
+		return FALSE
+
+	}
+
+	division = division + 1
+
+}
+
+sampleSet = { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 10 }
+
+index = 1
+
+foreach ( sampleSet as setItem ) {
+
+	remove_from_set ( index , sampleSet )
+
+	index = index + 1
+
+}
+
+
+set = { 2 , 3 }
+
+if ( inclusion ( 2 , set ) ) {
+	
+	return TRUE
+
+}
+
+else {
+
+	return FALSE
+
+}
+
+} end

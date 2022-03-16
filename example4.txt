@@ -1,0 +1,30 @@
+start {
+
+/* assignment */
+division = 6 / 3
+multiplication = 9 * 5
+addition = 2 + 2
+subtraction = 1 - 2
+
+set = { 1 , 2 , 3 , 4 }
+
+/* expressions */
+while ( division < multiplication ) {
+
+	if ( emptyset ( set ) ) {
+
+		add_to_set ( 3 , set )		
+
+	}
+	
+	else {
+
+		return FALSE
+
+	}
+
+	division = division + 1
+
+}
+
+} end

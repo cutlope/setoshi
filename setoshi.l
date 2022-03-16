@@ -40,6 +40,7 @@ REMOVE_FROM_SET "remove_from_set"
 UNION_SET "union"
 INTERSECTION_SET "intersection"
 SUPERSET "superset"
+SUBSET "subset"
 EMPTYSET "emptyset"
 EQUALSET "equalset"
 READ_FILE "read"
@@ -50,6 +51,7 @@ IF "if"
 ELSE "else"
 WHILE "while"
 FOREACH "foreach"
+AS "as"
 FUNCTION "function"
 START_PROGRAM "start"
 END_PROGRAM "end"
@@ -112,4 +114,3 @@ COMMENT {COMMENT_START}{IDENTIFIER}{COMMENT_END}
 {END_PROGRAM} printf("END_PROGRAM");
 {IDENTIFIER} printf("IDENTIFIER");
 {COMMENT} printf("COMMENT");
-

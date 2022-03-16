@@ -1,3 +1,5 @@
+%option yylineno
+
 INTEGER int
 BOOLEAN bool
 CHAR char
@@ -56,63 +58,67 @@ START_PROGRAM "start"
 END_PROGRAM "end"
 IDENTIFIER [a-zA-Z0-9_]+
 COMMENT {COMMENT_START}{IDENTIFIER}{COMMENT_END}
+
+
 %%
-{INTEGER} return INTEGER;
-{BOOLEAN} return BOOLEAN;
-{CHAR} return CHAR;
-{FLOAT} return FLOAT;
-{STRING} return STRING;
-{TRUE} return TRUE;
-{FALSE} return FALSE;
-{POINT} return POINT;
-{LOWERCASE} return LOWERCASE;
-{UPPERCASE} return UPPERCASE;
-{CHAR_VALUE} return CHAR_VALUE;
-{INTEGER_VALUE} return INTEGER_VALUE;
-{NUMBER_VALUE} return NUMBER_VALUE;
-{FLOAT_VALUE} return FLOAT_VALUE;
-{SIGN} return SIGN;
-{L_CB} return L_CB;
-{R_CB} return R_CB;
-{L_PR} return L_PR;
-{R_PR} return R_PR;
-{COMMA} return COMMA;
-{DIVISION_OPERATOR} return DIVISION_OPERATOR;
-{MULTIPLICATION_OPERATOR} return MULTIPLICATION_OPERATOR;
-{AND} return AND;
-{OR} return OR;
-{LT} return LT;
-{GT} return GT;
-{LTE} return LTE;
-{GTE} return GTE;
-{EQUALS_TO} return EQUALS_TO;
-{IS_EQUAL} return IS_EQUAL;
-{IS_EQUAL_STRICT} return IS_EQUAL_STRICT;
-{IS_NOT_EQUAL} return IS_NOT_EQUAL;
-{IS_NOT_EQUAL_STRICT} return IS_NOT_EQUAL_STRICT;
-{COMMENT_START} return COMMENT_START;
-{COMMENT_END} return COMMENT_END;
-{DELETE_SET} return DELETE_SET;
-{ADD_TO_SET} return ADD_TO_SET;
-{REMOVE_FROM_SET} return REMOVE_FROM_SET;
-{UNION_SET} return UNION_SET;
-{INTERSECTION_SET} return INTERSECTION_SET;
-{SUPERSET} return SUPERSET;
-{EMPTYSET} return EMPTYSET;
-{EQUALSET} return EQUALSET;
-{READ_FILE} return READ_FILE;
-{WRITE_FILE} return WRITE_FILE;
-{INPUT} return INPUT;
-{OUTPUT} return OUTPUT;
-{IF} return IF;
-{ELSE} return ELSE;
-{WHILE} return WHILE;
-{FOREACH} return FOREACH;
-{FUNCTION} return FUNCTION;
-{START_PROGRAM} return START_PROGRAM;
-{END_PROGRAM} return END_PROGRAM;
-{IDENTIFIER} return IDENTIFIER;
-{COMMENT} return COMMENT;
+{INTEGER} return (INTEGER);
+{BOOLEAN} return (BOOLEAN);
+{CHAR} return (CHAR);
+{FLOAT} return (FLOAT);
+{STRING} return (STRING);
+{TRUE} return (TRUE);
+{FALSE} return (FALSE);
+{POINT} return (POINT);
+{LOWERCASE} return (LOWERCASE);
+{UPPERCASE} return (UPPERCASE);
+{CHAR_VALUE} return (CHAR_VALUE);
+{INTEGER_VALUE} return (INTEGER_VALUE);
+{NUMBER_VALUE} return (NUMBER_VALUE);
+{FLOAT_VALUE} return (FLOAT_VALUE);
+{SIGN} return (SIGN);
+{L_CB} return (L_CB);
+{R_CB} return (R_CB);
+{L_PR} return (L_PR);
+{R_PR} return (R_PR);
+{COMMA} return (COMMA);
+{DIVISION_OPERATOR} return (DIVISION_OPERATOR);
+{MULTIPLICATION_OPERATOR} return (MULTIPLICATION_OPERATOR);
+{AND} return (AND);
+{OR} return (OR);
+{LT} return (LT);
+{GT} return (GT);
+{LTE} return (LTE);
+{GTE} return (GTE);
+{EQUALS_TO} return (EQUALS_TO);
+{IS_EQUAL} return (IS_EQUAL);
+{IS_EQUAL_STRICT} return (IS_EQUAL_STRICT);
+{IS_NOT_EQUAL} return (IS_NOT_EQUAL);
+{IS_NOT_EQUAL_STRICT} return (IS_NOT_EQUAL_STRICT);
+{COMMENT_START} return (COMMENT_START);
+{COMMENT_END} return (COMMENT_END);
+{DELETE_SET} return (DELETE_SET);
+{ADD_TO_SET} return (ADD_TO_SET);
+{REMOVE_FROM_SET} return (REMOVE_FROM_SET);
+{UNION_SET} return (UNION_SET);
+{INTERSECTION_SET} return (INTERSECTION_SET);
+{SUPERSET} return (SUPERSET);
+{EMPTYSET} return (EMPTYSET);
+{EQUALSET} return (EQUALSET);
+{READ_FILE} return (READ_FILE);
+{WRITE_FILE} return (WRITE_FILE);
+{INPUT} return (INPUT);
+{OUTPUT} return (OUTPUT);
+{IF} return (IF);
+{ELSE} return (ELSE);
+{WHILE} return (WHILE);
+{FOREACH} return (FOREACH);
+{FUNCTION} return (FUNCTION);
+{START_PROGRAM} return (START_PROGRAM);
+{END_PROGRAM} return (END_PROGRAM);
+{IDENTIFIER} return (IDENTIFIER);
+{COMMENT} return (COMMENT);
+[ \n] ;
+
 %%
 
-int yywrap() { return 1; }
+int yywrap() { return (1); }

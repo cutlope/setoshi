@@ -1,3 +1,9 @@
+%{
+#include <stdio.h>
+#include <stdlib.h>
+extern int yylineno;
+%}
+
 %token INTEGER
 %token BOOLEAN
 %token CHAR
@@ -70,7 +76,7 @@ statements:
     | statement statements
 
 statement :
-        COMMENT
+        comment
         | loop
         | expr
         | conditional
@@ -228,7 +234,12 @@ output :
 %%
 
 #include "lex.yy.c"
-main() {
-   return yyparse();
+
+void yyerror( char *s ) {
+    fprintf( stderr, "%s on line \n", s, yylineno);
+}
+
+int main() {
+    yyparse();
+    return 0;
  }
-int yyerror( char *s ) { fprintf( stderr, "%s\n", s); }

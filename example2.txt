@@ -8,8 +8,8 @@ start {
 
     write ( unionSetPath )  
 
-    set_del ( set1 )
-    set_del ( set2 )
-    set_del ( set3 )
+    delete_set ( set1 )
+    delete_set ( set2 )
+    delete_set ( set3 )
 
 } end

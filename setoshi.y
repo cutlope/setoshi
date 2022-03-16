@@ -81,7 +81,9 @@ statement :
         | expr
         | conditional
         | function_new
-        | output
+        | io_opr
+        | set_expr
+        | function_call
 
 form :
     INTEGER
@@ -120,6 +122,7 @@ expr :
     | IDENTIFIER EQUALS_TO IDENTIFIER
     | IDENTIFIER comparator IDENTIFIER
     | IDENTIFIER EQUALS_TO io_opr
+    | IDENTIFIER EQUALS_TO set_opr
 
 comparator :
     AND | OR | LT
@@ -149,9 +152,8 @@ function_name :
     IDENTIFIER
 
 params :
-    var_new
-    | var_new params
-    | IDENTIFIER
+    set_element
+    | set_element COMMA params
 
 function_new :
     FUNCTION function_name L_PR params R_PR L_CB statements R_CB
@@ -168,11 +170,29 @@ comment :
 set :
     L_CB set_elements R_CB
 
+set_opr :
+    set
+    | set_new
+    | set_union
+    | set_intersection
+    | is_superset
+    | is_subset
+    | is_emptyset
+    | is_equalset
+
+set_expr :
+    set_del
+    | set_add
+    | set_remove
+
+
 set_elements :
-    set_element | set_element set_elements
+    set_element
+    | set_element COMMA set_elements
 
 set_element :
-    INTEGER_VALUE | IDENTIFIER
+    INTEGER_VALUE
+    | IDENTIFIER
 
 set_new :
     IDENTIFIER EQUALS_TO set
@@ -181,10 +201,10 @@ set_del :
     DELETE_SET L_PR IDENTIFIER R_PR
 
 set_add :
-    ADD_TO_SET L_PR set_elements COMMA IDENTIFIER R_PR
+    ADD_TO_SET L_PR set_element COMMA IDENTIFIER R_PR
 
 set_remove :
-    REMOVE_FROM_SET L_PR set_elements COMMA IDENTIFIER R_PR
+    REMOVE_FROM_SET L_PR set_element COMMA IDENTIFIER R_PR
 
 set_union  :
     UNION_SET L_PR  IDENTIFIER COMMA IDENTIFIER R_PR

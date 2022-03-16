@@ -135,6 +135,7 @@ operator :
 
 expr :
     identifier operator identifier
+    | identifier EQUALS_TO identifier
     | identifier comparator identifier
 
 comparator :

@@ -119,8 +119,7 @@ COMMENT {COMMENT_START}{IDENTIFIER}{COMMENT_END}
 {END_PROGRAM} return (END_PROGRAM);
 {IDENTIFIER} return (IDENTIFIER);
 {COMMENT} return (COMMENT);
-[ \n] ;
-
+[ \t\n]  ;
 %%
 
 int yywrap() { return (1); }

@@ -63,13 +63,14 @@ extern int yylineno;
 %token SUBSET
 %token AS
 
+
 %%
 
 program:
      main
 
 main:
-    statements
+    START_PROGRAM L_CB statements R_CB END_PROGRAM
 
 statements:
     statement
@@ -80,12 +81,12 @@ statement :
         | loop
         | expr
         | conditional
-        | FUNCTION
+        | function_new
 
 form :
-    INTEGER
+    INTEGER_VALUE
     | bool
-    | CHAR
+    | char
     | float
     | string
 
@@ -101,8 +102,12 @@ bool :
     | FALSE
 
 string :
-    CHAR
-    | CHAR string
+    char
+    | char string
+
+char:
+    LOWERCASE
+    | UPPERCASE
 
 var_new :
     form identifier
@@ -181,7 +186,7 @@ set_elements :
     set_element | set_element set_elements
 
 set_element :
-    INTEGER | CHAR | string
+    INTEGER_VALUE | char | string
 
 set_new :
     identifier EQUALS_TO set
@@ -228,15 +233,15 @@ input :
 output :
     OUTPUT identifier
     | OUTPUT  string
-    | OUTPUT  INTEGER
+    | OUTPUT  INTEGER_VALUE
     | OUTPUT  set
 
 %%
 
 #include "lex.yy.c"
 
-void yyerror( char *s ) {
-    fprintf( stderr, "%s on line \n", s, yylineno);
+void yyerror(char *s) {
+    fprintf(stderr, "line %d: %s\n", yylineno, s);
 }
 
 int main() {

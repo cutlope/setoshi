@@ -84,6 +84,7 @@ statement :
         | io_opr
         | set_expr
         | function_call
+	| return
 
 form :
     INTEGER
@@ -98,19 +99,6 @@ number :
 float :
     number POINT number
 
-bool :
-    TRUE
-    | FALSE
-
-var_new :
-    form IDENTIFIER
-
-assign :
-    IDENTIFIER EQUALS_TO expr
-
-assign_new :
-    var_new EQUALS_TO expr
-
 operator :
     DIVISION_OPERATOR
     | MULTIPLICATION_OPERATOR
@@ -123,6 +111,7 @@ expr :
     | IDENTIFIER comparator IDENTIFIER
     | IDENTIFIER EQUALS_TO io_opr
     | IDENTIFIER EQUALS_TO set_opr
+    | form IDENTIFIER EQUALS_TO IDENTIFIER
 
 comparator :
     AND | OR | LT
@@ -162,7 +151,7 @@ function_call :
     function_name L_PR params R_PR
 
 return :
-    return IDENTIFIER
+    RETURN IDENTIFIER
 
 comment :
     COMMENT_START IDENTIFIER COMMENT_START
@@ -191,8 +180,9 @@ set_elements :
     | set_element COMMA set_elements
 
 set_element :
-    INTEGER_VALUE
+    number
     | IDENTIFIER
+    | float
 
 set_new :
     IDENTIFIER EQUALS_TO set

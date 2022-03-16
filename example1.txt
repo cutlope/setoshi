@@ -1,15 +1,13 @@
 start {
 
-    readFile = read ( pathToSetFile )
+    set = read ( pathToSetFile )
 
-    set = in readFile
-
-    if ( emptySet ( pathToSetFile ) ) {
+    if ( emptySet ( set ) ) {
         out givensetempty
     }
 
     else {
-        foreach ( pathToSetFile as setElement ) {
+        foreach ( set as setElement ) {
             out setElement
         }
     }

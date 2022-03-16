@@ -81,6 +81,7 @@ statement :
         | expr
         | conditional
         | function_new
+        | output
 
 form :
     INTEGER
@@ -127,14 +128,14 @@ comparator :
     | IS_NOT_EQUAL_STRICT
 
 foreach_expr :
-    IDENTIFIER AS var_new
+    IDENTIFIER AS IDENTIFIER
 
 conditional :
     if
 
 if :
-    if L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
-
+    IF L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
+    | IF L_PR function_call R_PR L_CB statements R_CB ELSE L_CB statements R_CB
 loop :
     while_loop | foreach_loop
 
@@ -150,6 +151,7 @@ function_name :
 params :
     var_new
     | var_new params
+    | IDENTIFIER
 
 function_new :
     FUNCTION function_name L_PR params R_PR L_CB statements R_CB
@@ -235,5 +237,8 @@ void yyerror(char *s) {
 
 int main() {
     yyparse();
+    if(yynerrs < 1){
+		    printf("Input program is valid 🍇🍇 \n");
+	}
     return 0;
  }

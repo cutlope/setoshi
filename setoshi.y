@@ -143,13 +143,7 @@ conditional :
     if
 
 if :
-    matched_if | unmatched_if
-
-matched_if :
-    if expr L_CB statements R_CB ELSE L_CB matched_if R_CB
-
-unmatched_if :
-    if expr L_CB matched_if R_CB ELSE L_CB unmatched_if R_CB
+    if L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
 
 loop :
     while_loop | foreach_loop

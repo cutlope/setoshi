@@ -165,7 +165,7 @@ function_name :
 
 params :
     var_new
-    | params
+    | var_new params
 
 function_new :
     FUNCTION function_name L_PR params R_PR L_CB statements R_CB

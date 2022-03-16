@@ -1,0 +1,16 @@
+start {
+    
+    function removeElement ( set , element ) {
+        remove_from_set ( element , set )
+        out set
+    }
+
+    readFile = read ( pathToSetFile )
+
+    set = in readFile
+
+    removeElement ( set , 5 )
+
+    out set
+
+} end

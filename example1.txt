@@ -1,0 +1,18 @@
+start {
+
+    readFile = read ( pathToSetFile )
+
+    set = in readFile
+
+    if ( emptySet ( pathToSetFile ) ) {
+        out givensetempty
+    }
+
+    else {
+        foreach ( pathToSetFile as setElement ) {
+            out setElement
+        }
+    }
+
+} end
+

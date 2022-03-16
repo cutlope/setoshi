@@ -1,0 +1,15 @@
+start {
+
+    set1 = { 4 , 5 , 6 , 7 }
+    set2 = { 1 , 2 , 3 }
+    set3 = union ( set1 , set2 )
+
+    out set3
+
+    write ( unionSetPath )  
+
+    set_del ( set1 )
+    set_del ( set2 )
+    set_del ( set3 )
+
+} end

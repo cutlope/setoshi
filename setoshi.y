@@ -57,7 +57,6 @@
 %token SUBSET
 %token AS
 
-
 %%
 
 program:
@@ -228,10 +227,8 @@ output :
 
 %%
 
-
-#include "setoshi.yy.c"
-/* ...additional user code... */
+#include "lex.yy.c"
 main() {
-  return yyparse();
-}
+   return yyparse();
+ }
 int yyerror( char *s ) { fprintf( stderr, "%s\n", s); }

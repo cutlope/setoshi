@@ -18,7 +18,6 @@ extern int yylineno;
 %token INTEGER_VALUE
 %token NUMBER_VALUE
 %token FLOAT_VALUE
-%token SIGN
 %token L_CB
 %token R_CB
 %token L_PR

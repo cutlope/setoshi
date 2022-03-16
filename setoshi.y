@@ -125,6 +125,7 @@ conditional :
 if :
     IF L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
     | IF L_PR function_call R_PR L_CB statements R_CB ELSE L_CB statements R_CB
+    | IF L_PR set_opr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
 loop :
     while_loop | foreach_loop
 
@@ -158,7 +159,6 @@ set :
 
 set_opr :
     set
-    | set_new
     | set_union
     | set_intersection
     | set_inclusion
@@ -172,7 +172,6 @@ set_expr :
     | set_add
     | set_remove
 
-
 set_elements :
     set_element
     | set_element COMMA set_elements
@@ -181,9 +180,6 @@ set_element :
     IDENTIFIER
     | float
     | INTEGER_VALUE
-
-set_new :
-    IDENTIFIER EQUALS_TO set
 
 set_del :
     DELETE_SET L_PR IDENTIFIER R_PR

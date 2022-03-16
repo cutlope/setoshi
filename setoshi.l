@@ -1,4 +1,3 @@
-%option main
 INTEGER int
 BOOLEAN bool
 CHAR char
@@ -114,3 +113,6 @@ COMMENT {COMMENT_START}{IDENTIFIER}{COMMENT_END}
 {END_PROGRAM} return END_PROGRAM;
 {IDENTIFIER} return IDENTIFIER;
 {COMMENT} return COMMENT;
+%%
+
+int yywrap() { return 1; }

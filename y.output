@@ -1,0 +1,2294 @@
+   0  $accept : program $end
+
+   1  program : main
+
+   2  main : START_PROGRAM L_CB statements R_CB END_PROGRAM
+
+   3  statements : statement
+   4             | statement statements
+
+   5  statement : comment
+   6            | loop
+   7            | expr
+   8            | conditional
+   9            | function_new
+  10            | io_opr
+  11            | set_expr
+  12            | function_call
+  13            | return
+
+  14  form : INTEGER
+  15       | BOOLEAN
+  16       | CHAR
+  17       | FLOAT
+
+  18  float : FLOAT_VALUE
+
+  19  operator : DIVISION_OPERATOR
+  20           | MULTIPLICATION_OPERATOR
+  21           | ADDITION_OPERATOR
+  22           | SUBTRACTION_OPERATOR
+
+  23  expr : set_element operator set_element
+  24       | IDENTIFIER EQUALS_TO expr
+  25       | IDENTIFIER EQUALS_TO set_element
+  26       | IDENTIFIER comparator IDENTIFIER
+  27       | IDENTIFIER EQUALS_TO io_opr
+  28       | IDENTIFIER EQUALS_TO set_opr
+  29       | form IDENTIFIER EQUALS_TO IDENTIFIER
+
+  30  comparator : AND
+  31             | OR
+  32             | LT
+  33             | GT
+  34             | LTE
+  35             | GTE
+  36             | IS_EQUAL
+  37             | IS_EQUAL_STRICT
+  38             | IS_NOT_EQUAL
+  39             | IS_NOT_EQUAL_STRICT
+
+  40  foreach_expr : IDENTIFIER AS IDENTIFIER
+
+  41  conditional : if
+
+  42  if : IF L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
+  43     | IF L_PR function_call R_PR L_CB statements R_CB ELSE L_CB statements R_CB
+  44     | IF L_PR set_opr R_PR L_CB statements R_CB ELSE L_CB statements R_CB
+
+  45  loop : while_loop
+  46       | foreach_loop
+
+  47  while_loop : WHILE L_PR expr R_PR L_CB statements R_CB
+
+  48  foreach_loop : FOREACH L_PR foreach_expr R_PR L_CB statements R_CB
+
+  49  function_name : IDENTIFIER
+
+  50  params : set_element
+  51         | set_element COMMA params
+
+  52  function_new : FUNCTION function_name L_PR params R_PR L_CB statements R_CB
+
+  53  function_call : function_name L_PR params R_PR
+
+  54  return : RETURN IDENTIFIER
+
+  55  comment : COMMENT_START IDENTIFIER COMMENT_END
+
+  56  set : L_CB set_elements R_CB
+
+  57  set_opr : set
+  58          | set_union
+  59          | set_intersection
+  60          | set_inclusion
+  61          | is_superset
+  62          | is_subset
+  63          | is_emptyset
+  64          | is_equalset
+
+  65  set_expr : set_del
+  66           | set_add
+  67           | set_remove
+
+  68  set_elements : set_element
+  69               | set_element COMMA set_elements
+
+  70  set_element : IDENTIFIER
+  71              | float
+  72              | INTEGER_VALUE
+
+  73  set_new : IDENTIFIER EQUALS_TO set
+
+  74  set_del : DELETE_SET L_PR IDENTIFIER R_PR
+
+  75  set_add : ADD_TO_SET L_PR set_element COMMA IDENTIFIER R_PR
+
+  76  set_remove : REMOVE_FROM_SET L_PR set_element COMMA IDENTIFIER R_PR
+
+  77  set_union : UNION_SET L_PR IDENTIFIER COMMA IDENTIFIER R_PR
+
+  78  set_intersection : INTERSECTION_SET L_PR IDENTIFIER COMMA IDENTIFIER R_PR
+
+  79  set_inclusion : INCLUSION_SET L_PR set_element COMMA IDENTIFIER R_PR
+
+  80  is_superset : SUPERSET L_PR IDENTIFIER R_PR
+
+  81  is_subset : SUBSET L_PR IDENTIFIER R_PR
+
+  82  is_emptyset : EMPTYSET L_PR IDENTIFIER R_PR
+
+  83  is_equalset : EQUALSET L_PR IDENTIFIER R_PR
+
+  84  file_path : IDENTIFIER
+
+  85  io_opr : read_file
+  86         | write_file
+  87         | input
+  88         | output
+
+  89  read_file : READ_FILE L_PR file_path R_PR
+
+  90  write_file : WRITE_FILE L_PR file_path R_PR
+
+  91  input : INPUT read_file
+
+  92  output : OUTPUT IDENTIFIER
+  93         | OUTPUT INTEGER_VALUE
+  94         | OUTPUT set
+
+state 0
+	$accept : . program $end  (0)
+
+	START_PROGRAM  shift 1
+	.  error
+
+	program  goto 2
+	main  goto 3
+
+
+state 1
+	main : START_PROGRAM . L_CB statements R_CB END_PROGRAM  (2)
+
+	L_CB  shift 4
+	.  error
+
+
+state 2
+	$accept : program . $end  (0)
+
+	$end  accept
+
+
+state 3
+	program : main .  (1)
+
+	.  reduce 1
+
+
+state 4
+	main : START_PROGRAM L_CB . statements R_CB END_PROGRAM  (2)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 25
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 5
+	form : INTEGER .  (14)
+
+	.  reduce 14
+
+
+state 6
+	form : BOOLEAN .  (15)
+
+	.  reduce 15
+
+
+state 7
+	form : CHAR .  (16)
+
+	.  reduce 16
+
+
+state 8
+	form : FLOAT .  (17)
+
+	.  reduce 17
+
+
+state 9
+	set_element : INTEGER_VALUE .  (72)
+
+	.  reduce 72
+
+
+state 10
+	float : FLOAT_VALUE .  (18)
+
+	.  reduce 18
+
+
+state 11
+	comment : COMMENT_START . IDENTIFIER COMMENT_END  (55)
+
+	IDENTIFIER  shift 50
+	.  error
+
+
+state 12
+	set_del : DELETE_SET . L_PR IDENTIFIER R_PR  (74)
+
+	L_PR  shift 51
+	.  error
+
+
+state 13
+	set_add : ADD_TO_SET . L_PR set_element COMMA IDENTIFIER R_PR  (75)
+
+	L_PR  shift 52
+	.  error
+
+
+state 14
+	set_remove : REMOVE_FROM_SET . L_PR set_element COMMA IDENTIFIER R_PR  (76)
+
+	L_PR  shift 53
+	.  error
+
+
+state 15
+	read_file : READ_FILE . L_PR file_path R_PR  (89)
+
+	L_PR  shift 54
+	.  error
+
+
+state 16
+	write_file : WRITE_FILE . L_PR file_path R_PR  (90)
+
+	L_PR  shift 55
+	.  error
+
+
+state 17
+	input : INPUT . read_file  (91)
+
+	READ_FILE  shift 15
+	.  error
+
+	read_file  goto 56
+
+
+state 18
+	output : OUTPUT . IDENTIFIER  (92)
+	output : OUTPUT . INTEGER_VALUE  (93)
+	output : OUTPUT . set  (94)
+
+	INTEGER_VALUE  shift 57
+	L_CB  shift 58
+	IDENTIFIER  shift 59
+	.  error
+
+	set  goto 60
+
+
+state 19
+	if : IF . L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (42)
+	if : IF . L_PR function_call R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (43)
+	if : IF . L_PR set_opr R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (44)
+
+	L_PR  shift 61
+	.  error
+
+
+state 20
+	while_loop : WHILE . L_PR expr R_PR L_CB statements R_CB  (47)
+
+	L_PR  shift 62
+	.  error
+
+
+state 21
+	foreach_loop : FOREACH . L_PR foreach_expr R_PR L_CB statements R_CB  (48)
+
+	L_PR  shift 63
+	.  error
+
+
+state 22
+	function_new : FUNCTION . function_name L_PR params R_PR L_CB statements R_CB  (52)
+
+	IDENTIFIER  shift 64
+	.  error
+
+	function_name  goto 65
+
+
+state 23
+	return : RETURN . IDENTIFIER  (54)
+
+	IDENTIFIER  shift 66
+	.  error
+
+
+state 24
+	expr : IDENTIFIER . EQUALS_TO expr  (24)
+	expr : IDENTIFIER . EQUALS_TO set_element  (25)
+	expr : IDENTIFIER . comparator IDENTIFIER  (26)
+	expr : IDENTIFIER . EQUALS_TO io_opr  (27)
+	expr : IDENTIFIER . EQUALS_TO set_opr  (28)
+	function_name : IDENTIFIER .  (49)
+	set_element : IDENTIFIER .  (70)
+
+	AND  shift 67
+	OR  shift 68
+	LT  shift 69
+	GT  shift 70
+	LTE  shift 71
+	GTE  shift 72
+	EQUALS_TO  shift 73
+	IS_EQUAL  shift 74
+	IS_EQUAL_STRICT  shift 75
+	IS_NOT_EQUAL  shift 76
+	IS_NOT_EQUAL_STRICT  shift 77
+	L_PR  reduce 49
+	DIVISION_OPERATOR  reduce 70
+	MULTIPLICATION_OPERATOR  reduce 70
+	ADDITION_OPERATOR  reduce 70
+	SUBTRACTION_OPERATOR  reduce 70
+
+	comparator  goto 78
+
+
+state 25
+	main : START_PROGRAM L_CB statements . R_CB END_PROGRAM  (2)
+
+	R_CB  shift 79
+	.  error
+
+
+state 26
+	statements : statement .  (3)
+	statements : statement . statements  (4)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	R_CB  reduce 3
+
+	statements  goto 80
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 27
+	statement : comment .  (5)
+
+	.  reduce 5
+
+
+state 28
+	statement : loop .  (6)
+
+	.  reduce 6
+
+
+state 29
+	statement : expr .  (7)
+
+	.  reduce 7
+
+
+state 30
+	statement : conditional .  (8)
+
+	.  reduce 8
+
+
+state 31
+	statement : function_new .  (9)
+
+	.  reduce 9
+
+
+state 32
+	statement : io_opr .  (10)
+
+	.  reduce 10
+
+
+state 33
+	statement : set_expr .  (11)
+
+	.  reduce 11
+
+
+state 34
+	statement : function_call .  (12)
+
+	.  reduce 12
+
+
+state 35
+	statement : return .  (13)
+
+	.  reduce 13
+
+
+state 36
+	expr : form . IDENTIFIER EQUALS_TO IDENTIFIER  (29)
+
+	IDENTIFIER  shift 81
+	.  error
+
+
+state 37
+	set_element : float .  (71)
+
+	.  reduce 71
+
+
+state 38
+	expr : set_element . operator set_element  (23)
+
+	DIVISION_OPERATOR  shift 82
+	MULTIPLICATION_OPERATOR  shift 83
+	ADDITION_OPERATOR  shift 84
+	SUBTRACTION_OPERATOR  shift 85
+	.  error
+
+	operator  goto 86
+
+
+state 39
+	conditional : if .  (41)
+
+	.  reduce 41
+
+
+state 40
+	loop : while_loop .  (45)
+
+	.  reduce 45
+
+
+state 41
+	loop : foreach_loop .  (46)
+
+	.  reduce 46
+
+
+state 42
+	function_call : function_name . L_PR params R_PR  (53)
+
+	L_PR  shift 87
+	.  error
+
+
+state 43
+	set_expr : set_del .  (65)
+
+	.  reduce 65
+
+
+state 44
+	set_expr : set_add .  (66)
+
+	.  reduce 66
+
+
+state 45
+	set_expr : set_remove .  (67)
+
+	.  reduce 67
+
+
+state 46
+	io_opr : read_file .  (85)
+
+	.  reduce 85
+
+
+state 47
+	io_opr : write_file .  (86)
+
+	.  reduce 86
+
+
+state 48
+	io_opr : input .  (87)
+
+	.  reduce 87
+
+
+state 49
+	io_opr : output .  (88)
+
+	.  reduce 88
+
+
+state 50
+	comment : COMMENT_START IDENTIFIER . COMMENT_END  (55)
+
+	COMMENT_END  shift 88
+	.  error
+
+
+state 51
+	set_del : DELETE_SET L_PR . IDENTIFIER R_PR  (74)
+
+	IDENTIFIER  shift 89
+	.  error
+
+
+state 52
+	set_add : ADD_TO_SET L_PR . set_element COMMA IDENTIFIER R_PR  (75)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 91
+
+
+state 53
+	set_remove : REMOVE_FROM_SET L_PR . set_element COMMA IDENTIFIER R_PR  (76)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 92
+
+
+state 54
+	read_file : READ_FILE L_PR . file_path R_PR  (89)
+
+	IDENTIFIER  shift 93
+	.  error
+
+	file_path  goto 94
+
+
+state 55
+	write_file : WRITE_FILE L_PR . file_path R_PR  (90)
+
+	IDENTIFIER  shift 93
+	.  error
+
+	file_path  goto 95
+
+
+state 56
+	input : INPUT read_file .  (91)
+
+	.  reduce 91
+
+
+state 57
+	output : OUTPUT INTEGER_VALUE .  (93)
+
+	.  reduce 93
+
+
+state 58
+	set : L_CB . set_elements R_CB  (56)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 96
+	set_elements  goto 97
+
+
+state 59
+	output : OUTPUT IDENTIFIER .  (92)
+
+	.  reduce 92
+
+
+state 60
+	output : OUTPUT set .  (94)
+
+	.  reduce 94
+
+
+state 61
+	if : IF L_PR . expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (42)
+	if : IF L_PR . function_call R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (43)
+	if : IF L_PR . set_opr R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (44)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	L_CB  shift 58
+	UNION_SET  shift 98
+	INTERSECTION_SET  shift 99
+	INCLUSION_SET  shift 100
+	SUPERSET  shift 101
+	EMPTYSET  shift 102
+	EQUALSET  shift 103
+	IDENTIFIER  shift 24
+	SUBSET  shift 104
+	.  error
+
+	expr  goto 105
+	function_call  goto 106
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	set_opr  goto 107
+	function_name  goto 42
+	set  goto 108
+	set_union  goto 109
+	set_intersection  goto 110
+	set_inclusion  goto 111
+	is_superset  goto 112
+	is_subset  goto 113
+	is_emptyset  goto 114
+	is_equalset  goto 115
+
+
+state 62
+	while_loop : WHILE L_PR . expr R_PR L_CB statements R_CB  (47)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 116
+	.  error
+
+	expr  goto 117
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+
+
+state 63
+	foreach_loop : FOREACH L_PR . foreach_expr R_PR L_CB statements R_CB  (48)
+
+	IDENTIFIER  shift 118
+	.  error
+
+	foreach_expr  goto 119
+
+
+state 64
+	function_name : IDENTIFIER .  (49)
+
+	.  reduce 49
+
+
+state 65
+	function_new : FUNCTION function_name . L_PR params R_PR L_CB statements R_CB  (52)
+
+	L_PR  shift 120
+	.  error
+
+
+state 66
+	return : RETURN IDENTIFIER .  (54)
+
+	.  reduce 54
+
+
+state 67
+	comparator : AND .  (30)
+
+	.  reduce 30
+
+
+state 68
+	comparator : OR .  (31)
+
+	.  reduce 31
+
+
+state 69
+	comparator : LT .  (32)
+
+	.  reduce 32
+
+
+state 70
+	comparator : GT .  (33)
+
+	.  reduce 33
+
+
+state 71
+	comparator : LTE .  (34)
+
+	.  reduce 34
+
+
+state 72
+	comparator : GTE .  (35)
+
+	.  reduce 35
+
+
+state 73
+	expr : IDENTIFIER EQUALS_TO . expr  (24)
+	expr : IDENTIFIER EQUALS_TO . set_element  (25)
+	expr : IDENTIFIER EQUALS_TO . io_opr  (27)
+	expr : IDENTIFIER EQUALS_TO . set_opr  (28)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	L_CB  shift 58
+	UNION_SET  shift 98
+	INTERSECTION_SET  shift 99
+	INCLUSION_SET  shift 100
+	SUPERSET  shift 101
+	EMPTYSET  shift 102
+	EQUALSET  shift 103
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IDENTIFIER  shift 116
+	SUBSET  shift 104
+	.  error
+
+	expr  goto 121
+	io_opr  goto 122
+	form  goto 36
+	float  goto 37
+	set_element  goto 123
+	set_opr  goto 124
+	set  goto 108
+	set_union  goto 109
+	set_intersection  goto 110
+	set_inclusion  goto 111
+	is_superset  goto 112
+	is_subset  goto 113
+	is_emptyset  goto 114
+	is_equalset  goto 115
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 74
+	comparator : IS_EQUAL .  (36)
+
+	.  reduce 36
+
+
+state 75
+	comparator : IS_EQUAL_STRICT .  (37)
+
+	.  reduce 37
+
+
+state 76
+	comparator : IS_NOT_EQUAL .  (38)
+
+	.  reduce 38
+
+
+state 77
+	comparator : IS_NOT_EQUAL_STRICT .  (39)
+
+	.  reduce 39
+
+
+state 78
+	expr : IDENTIFIER comparator . IDENTIFIER  (26)
+
+	IDENTIFIER  shift 125
+	.  error
+
+
+state 79
+	main : START_PROGRAM L_CB statements R_CB . END_PROGRAM  (2)
+
+	END_PROGRAM  shift 126
+	.  error
+
+
+state 80
+	statements : statement statements .  (4)
+
+	.  reduce 4
+
+
+state 81
+	expr : form IDENTIFIER . EQUALS_TO IDENTIFIER  (29)
+
+	EQUALS_TO  shift 127
+	.  error
+
+
+state 82
+	operator : DIVISION_OPERATOR .  (19)
+
+	.  reduce 19
+
+
+state 83
+	operator : MULTIPLICATION_OPERATOR .  (20)
+
+	.  reduce 20
+
+
+state 84
+	operator : ADDITION_OPERATOR .  (21)
+
+	.  reduce 21
+
+
+state 85
+	operator : SUBTRACTION_OPERATOR .  (22)
+
+	.  reduce 22
+
+
+state 86
+	expr : set_element operator . set_element  (23)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 128
+
+
+state 87
+	function_call : function_name L_PR . params R_PR  (53)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 129
+	params  goto 130
+
+
+state 88
+	comment : COMMENT_START IDENTIFIER COMMENT_END .  (55)
+
+	.  reduce 55
+
+
+state 89
+	set_del : DELETE_SET L_PR IDENTIFIER . R_PR  (74)
+
+	R_PR  shift 131
+	.  error
+
+
+state 90
+	set_element : IDENTIFIER .  (70)
+
+	.  reduce 70
+
+
+state 91
+	set_add : ADD_TO_SET L_PR set_element . COMMA IDENTIFIER R_PR  (75)
+
+	COMMA  shift 132
+	.  error
+
+
+state 92
+	set_remove : REMOVE_FROM_SET L_PR set_element . COMMA IDENTIFIER R_PR  (76)
+
+	COMMA  shift 133
+	.  error
+
+
+state 93
+	file_path : IDENTIFIER .  (84)
+
+	.  reduce 84
+
+
+state 94
+	read_file : READ_FILE L_PR file_path . R_PR  (89)
+
+	R_PR  shift 134
+	.  error
+
+
+state 95
+	write_file : WRITE_FILE L_PR file_path . R_PR  (90)
+
+	R_PR  shift 135
+	.  error
+
+
+state 96
+	set_elements : set_element .  (68)
+	set_elements : set_element . COMMA set_elements  (69)
+
+	COMMA  shift 136
+	R_CB  reduce 68
+
+
+state 97
+	set : L_CB set_elements . R_CB  (56)
+
+	R_CB  shift 137
+	.  error
+
+
+state 98
+	set_union : UNION_SET . L_PR IDENTIFIER COMMA IDENTIFIER R_PR  (77)
+
+	L_PR  shift 138
+	.  error
+
+
+state 99
+	set_intersection : INTERSECTION_SET . L_PR IDENTIFIER COMMA IDENTIFIER R_PR  (78)
+
+	L_PR  shift 139
+	.  error
+
+
+state 100
+	set_inclusion : INCLUSION_SET . L_PR set_element COMMA IDENTIFIER R_PR  (79)
+
+	L_PR  shift 140
+	.  error
+
+
+state 101
+	is_superset : SUPERSET . L_PR IDENTIFIER R_PR  (80)
+
+	L_PR  shift 141
+	.  error
+
+
+state 102
+	is_emptyset : EMPTYSET . L_PR IDENTIFIER R_PR  (82)
+
+	L_PR  shift 142
+	.  error
+
+
+state 103
+	is_equalset : EQUALSET . L_PR IDENTIFIER R_PR  (83)
+
+	L_PR  shift 143
+	.  error
+
+
+state 104
+	is_subset : SUBSET . L_PR IDENTIFIER R_PR  (81)
+
+	L_PR  shift 144
+	.  error
+
+
+state 105
+	if : IF L_PR expr . R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (42)
+
+	R_PR  shift 145
+	.  error
+
+
+state 106
+	if : IF L_PR function_call . R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (43)
+
+	R_PR  shift 146
+	.  error
+
+
+state 107
+	if : IF L_PR set_opr . R_PR L_CB statements R_CB ELSE L_CB statements R_CB  (44)
+
+	R_PR  shift 147
+	.  error
+
+
+state 108
+	set_opr : set .  (57)
+
+	.  reduce 57
+
+
+state 109
+	set_opr : set_union .  (58)
+
+	.  reduce 58
+
+
+state 110
+	set_opr : set_intersection .  (59)
+
+	.  reduce 59
+
+
+state 111
+	set_opr : set_inclusion .  (60)
+
+	.  reduce 60
+
+
+state 112
+	set_opr : is_superset .  (61)
+
+	.  reduce 61
+
+
+state 113
+	set_opr : is_subset .  (62)
+
+	.  reduce 62
+
+
+state 114
+	set_opr : is_emptyset .  (63)
+
+	.  reduce 63
+
+
+state 115
+	set_opr : is_equalset .  (64)
+
+	.  reduce 64
+
+
+state 116
+	expr : IDENTIFIER . EQUALS_TO expr  (24)
+	expr : IDENTIFIER . EQUALS_TO set_element  (25)
+	expr : IDENTIFIER . comparator IDENTIFIER  (26)
+	expr : IDENTIFIER . EQUALS_TO io_opr  (27)
+	expr : IDENTIFIER . EQUALS_TO set_opr  (28)
+	set_element : IDENTIFIER .  (70)
+
+	AND  shift 67
+	OR  shift 68
+	LT  shift 69
+	GT  shift 70
+	LTE  shift 71
+	GTE  shift 72
+	EQUALS_TO  shift 73
+	IS_EQUAL  shift 74
+	IS_EQUAL_STRICT  shift 75
+	IS_NOT_EQUAL  shift 76
+	IS_NOT_EQUAL_STRICT  shift 77
+	INTEGER  reduce 70
+	BOOLEAN  reduce 70
+	CHAR  reduce 70
+	FLOAT  reduce 70
+	INTEGER_VALUE  reduce 70
+	FLOAT_VALUE  reduce 70
+	R_CB  reduce 70
+	R_PR  reduce 70
+	DIVISION_OPERATOR  reduce 70
+	MULTIPLICATION_OPERATOR  reduce 70
+	ADDITION_OPERATOR  reduce 70
+	SUBTRACTION_OPERATOR  reduce 70
+	COMMENT_START  reduce 70
+	DELETE_SET  reduce 70
+	ADD_TO_SET  reduce 70
+	REMOVE_FROM_SET  reduce 70
+	READ_FILE  reduce 70
+	WRITE_FILE  reduce 70
+	INPUT  reduce 70
+	OUTPUT  reduce 70
+	IF  reduce 70
+	WHILE  reduce 70
+	FOREACH  reduce 70
+	FUNCTION  reduce 70
+	RETURN  reduce 70
+	IDENTIFIER  reduce 70
+
+	comparator  goto 78
+
+
+state 117
+	while_loop : WHILE L_PR expr . R_PR L_CB statements R_CB  (47)
+
+	R_PR  shift 148
+	.  error
+
+
+state 118
+	foreach_expr : IDENTIFIER . AS IDENTIFIER  (40)
+
+	AS  shift 149
+	.  error
+
+
+state 119
+	foreach_loop : FOREACH L_PR foreach_expr . R_PR L_CB statements R_CB  (48)
+
+	R_PR  shift 150
+	.  error
+
+
+state 120
+	function_new : FUNCTION function_name L_PR . params R_PR L_CB statements R_CB  (52)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 129
+	params  goto 151
+
+
+state 121
+	expr : IDENTIFIER EQUALS_TO expr .  (24)
+
+	.  reduce 24
+
+
+state 122
+	expr : IDENTIFIER EQUALS_TO io_opr .  (27)
+
+	.  reduce 27
+
+
+state 123
+	expr : set_element . operator set_element  (23)
+	expr : IDENTIFIER EQUALS_TO set_element .  (25)
+
+	DIVISION_OPERATOR  shift 82
+	MULTIPLICATION_OPERATOR  shift 83
+	ADDITION_OPERATOR  shift 84
+	SUBTRACTION_OPERATOR  shift 85
+	INTEGER  reduce 25
+	BOOLEAN  reduce 25
+	CHAR  reduce 25
+	FLOAT  reduce 25
+	INTEGER_VALUE  reduce 25
+	FLOAT_VALUE  reduce 25
+	R_CB  reduce 25
+	R_PR  reduce 25
+	COMMENT_START  reduce 25
+	DELETE_SET  reduce 25
+	ADD_TO_SET  reduce 25
+	REMOVE_FROM_SET  reduce 25
+	READ_FILE  reduce 25
+	WRITE_FILE  reduce 25
+	INPUT  reduce 25
+	OUTPUT  reduce 25
+	IF  reduce 25
+	WHILE  reduce 25
+	FOREACH  reduce 25
+	FUNCTION  reduce 25
+	RETURN  reduce 25
+	IDENTIFIER  reduce 25
+
+	operator  goto 86
+
+
+state 124
+	expr : IDENTIFIER EQUALS_TO set_opr .  (28)
+
+	.  reduce 28
+
+
+state 125
+	expr : IDENTIFIER comparator IDENTIFIER .  (26)
+
+	.  reduce 26
+
+
+state 126
+	main : START_PROGRAM L_CB statements R_CB END_PROGRAM .  (2)
+
+	.  reduce 2
+
+
+state 127
+	expr : form IDENTIFIER EQUALS_TO . IDENTIFIER  (29)
+
+	IDENTIFIER  shift 152
+	.  error
+
+
+state 128
+	expr : set_element operator set_element .  (23)
+
+	.  reduce 23
+
+
+state 129
+	params : set_element .  (50)
+	params : set_element . COMMA params  (51)
+
+	COMMA  shift 153
+	R_PR  reduce 50
+
+
+state 130
+	function_call : function_name L_PR params . R_PR  (53)
+
+	R_PR  shift 154
+	.  error
+
+
+state 131
+	set_del : DELETE_SET L_PR IDENTIFIER R_PR .  (74)
+
+	.  reduce 74
+
+
+state 132
+	set_add : ADD_TO_SET L_PR set_element COMMA . IDENTIFIER R_PR  (75)
+
+	IDENTIFIER  shift 155
+	.  error
+
+
+state 133
+	set_remove : REMOVE_FROM_SET L_PR set_element COMMA . IDENTIFIER R_PR  (76)
+
+	IDENTIFIER  shift 156
+	.  error
+
+
+state 134
+	read_file : READ_FILE L_PR file_path R_PR .  (89)
+
+	.  reduce 89
+
+
+state 135
+	write_file : WRITE_FILE L_PR file_path R_PR .  (90)
+
+	.  reduce 90
+
+
+state 136
+	set_elements : set_element COMMA . set_elements  (69)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 96
+	set_elements  goto 157
+
+
+state 137
+	set : L_CB set_elements R_CB .  (56)
+
+	.  reduce 56
+
+
+state 138
+	set_union : UNION_SET L_PR . IDENTIFIER COMMA IDENTIFIER R_PR  (77)
+
+	IDENTIFIER  shift 158
+	.  error
+
+
+state 139
+	set_intersection : INTERSECTION_SET L_PR . IDENTIFIER COMMA IDENTIFIER R_PR  (78)
+
+	IDENTIFIER  shift 159
+	.  error
+
+
+state 140
+	set_inclusion : INCLUSION_SET L_PR . set_element COMMA IDENTIFIER R_PR  (79)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 160
+
+
+state 141
+	is_superset : SUPERSET L_PR . IDENTIFIER R_PR  (80)
+
+	IDENTIFIER  shift 161
+	.  error
+
+
+state 142
+	is_emptyset : EMPTYSET L_PR . IDENTIFIER R_PR  (82)
+
+	IDENTIFIER  shift 162
+	.  error
+
+
+state 143
+	is_equalset : EQUALSET L_PR . IDENTIFIER R_PR  (83)
+
+	IDENTIFIER  shift 163
+	.  error
+
+
+state 144
+	is_subset : SUBSET L_PR . IDENTIFIER R_PR  (81)
+
+	IDENTIFIER  shift 164
+	.  error
+
+
+state 145
+	if : IF L_PR expr R_PR . L_CB statements R_CB ELSE L_CB statements R_CB  (42)
+
+	L_CB  shift 165
+	.  error
+
+
+state 146
+	if : IF L_PR function_call R_PR . L_CB statements R_CB ELSE L_CB statements R_CB  (43)
+
+	L_CB  shift 166
+	.  error
+
+
+state 147
+	if : IF L_PR set_opr R_PR . L_CB statements R_CB ELSE L_CB statements R_CB  (44)
+
+	L_CB  shift 167
+	.  error
+
+
+state 148
+	while_loop : WHILE L_PR expr R_PR . L_CB statements R_CB  (47)
+
+	L_CB  shift 168
+	.  error
+
+
+state 149
+	foreach_expr : IDENTIFIER AS . IDENTIFIER  (40)
+
+	IDENTIFIER  shift 169
+	.  error
+
+
+state 150
+	foreach_loop : FOREACH L_PR foreach_expr R_PR . L_CB statements R_CB  (48)
+
+	L_CB  shift 170
+	.  error
+
+
+state 151
+	function_new : FUNCTION function_name L_PR params . R_PR L_CB statements R_CB  (52)
+
+	R_PR  shift 171
+	.  error
+
+
+state 152
+	expr : form IDENTIFIER EQUALS_TO IDENTIFIER .  (29)
+
+	.  reduce 29
+
+
+state 153
+	params : set_element COMMA . params  (51)
+
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	IDENTIFIER  shift 90
+	.  error
+
+	float  goto 37
+	set_element  goto 129
+	params  goto 172
+
+
+state 154
+	function_call : function_name L_PR params R_PR .  (53)
+
+	.  reduce 53
+
+
+state 155
+	set_add : ADD_TO_SET L_PR set_element COMMA IDENTIFIER . R_PR  (75)
+
+	R_PR  shift 173
+	.  error
+
+
+state 156
+	set_remove : REMOVE_FROM_SET L_PR set_element COMMA IDENTIFIER . R_PR  (76)
+
+	R_PR  shift 174
+	.  error
+
+
+state 157
+	set_elements : set_element COMMA set_elements .  (69)
+
+	.  reduce 69
+
+
+state 158
+	set_union : UNION_SET L_PR IDENTIFIER . COMMA IDENTIFIER R_PR  (77)
+
+	COMMA  shift 175
+	.  error
+
+
+state 159
+	set_intersection : INTERSECTION_SET L_PR IDENTIFIER . COMMA IDENTIFIER R_PR  (78)
+
+	COMMA  shift 176
+	.  error
+
+
+state 160
+	set_inclusion : INCLUSION_SET L_PR set_element . COMMA IDENTIFIER R_PR  (79)
+
+	COMMA  shift 177
+	.  error
+
+
+state 161
+	is_superset : SUPERSET L_PR IDENTIFIER . R_PR  (80)
+
+	R_PR  shift 178
+	.  error
+
+
+state 162
+	is_emptyset : EMPTYSET L_PR IDENTIFIER . R_PR  (82)
+
+	R_PR  shift 179
+	.  error
+
+
+state 163
+	is_equalset : EQUALSET L_PR IDENTIFIER . R_PR  (83)
+
+	R_PR  shift 180
+	.  error
+
+
+state 164
+	is_subset : SUBSET L_PR IDENTIFIER . R_PR  (81)
+
+	R_PR  shift 181
+	.  error
+
+
+state 165
+	if : IF L_PR expr R_PR L_CB . statements R_CB ELSE L_CB statements R_CB  (42)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 182
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 166
+	if : IF L_PR function_call R_PR L_CB . statements R_CB ELSE L_CB statements R_CB  (43)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 183
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 167
+	if : IF L_PR set_opr R_PR L_CB . statements R_CB ELSE L_CB statements R_CB  (44)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 184
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 168
+	while_loop : WHILE L_PR expr R_PR L_CB . statements R_CB  (47)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 185
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 169
+	foreach_expr : IDENTIFIER AS IDENTIFIER .  (40)
+
+	.  reduce 40
+
+
+state 170
+	foreach_loop : FOREACH L_PR foreach_expr R_PR L_CB . statements R_CB  (48)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 186
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 171
+	function_new : FUNCTION function_name L_PR params R_PR . L_CB statements R_CB  (52)
+
+	L_CB  shift 187
+	.  error
+
+
+state 172
+	params : set_element COMMA params .  (51)
+
+	.  reduce 51
+
+
+state 173
+	set_add : ADD_TO_SET L_PR set_element COMMA IDENTIFIER R_PR .  (75)
+
+	.  reduce 75
+
+
+state 174
+	set_remove : REMOVE_FROM_SET L_PR set_element COMMA IDENTIFIER R_PR .  (76)
+
+	.  reduce 76
+
+
+state 175
+	set_union : UNION_SET L_PR IDENTIFIER COMMA . IDENTIFIER R_PR  (77)
+
+	IDENTIFIER  shift 188
+	.  error
+
+
+state 176
+	set_intersection : INTERSECTION_SET L_PR IDENTIFIER COMMA . IDENTIFIER R_PR  (78)
+
+	IDENTIFIER  shift 189
+	.  error
+
+
+state 177
+	set_inclusion : INCLUSION_SET L_PR set_element COMMA . IDENTIFIER R_PR  (79)
+
+	IDENTIFIER  shift 190
+	.  error
+
+
+state 178
+	is_superset : SUPERSET L_PR IDENTIFIER R_PR .  (80)
+
+	.  reduce 80
+
+
+state 179
+	is_emptyset : EMPTYSET L_PR IDENTIFIER R_PR .  (82)
+
+	.  reduce 82
+
+
+state 180
+	is_equalset : EQUALSET L_PR IDENTIFIER R_PR .  (83)
+
+	.  reduce 83
+
+
+state 181
+	is_subset : SUBSET L_PR IDENTIFIER R_PR .  (81)
+
+	.  reduce 81
+
+
+state 182
+	if : IF L_PR expr R_PR L_CB statements . R_CB ELSE L_CB statements R_CB  (42)
+
+	R_CB  shift 191
+	.  error
+
+
+state 183
+	if : IF L_PR function_call R_PR L_CB statements . R_CB ELSE L_CB statements R_CB  (43)
+
+	R_CB  shift 192
+	.  error
+
+
+state 184
+	if : IF L_PR set_opr R_PR L_CB statements . R_CB ELSE L_CB statements R_CB  (44)
+
+	R_CB  shift 193
+	.  error
+
+
+state 185
+	while_loop : WHILE L_PR expr R_PR L_CB statements . R_CB  (47)
+
+	R_CB  shift 194
+	.  error
+
+
+state 186
+	foreach_loop : FOREACH L_PR foreach_expr R_PR L_CB statements . R_CB  (48)
+
+	R_CB  shift 195
+	.  error
+
+
+state 187
+	function_new : FUNCTION function_name L_PR params R_PR L_CB . statements R_CB  (52)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 196
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 188
+	set_union : UNION_SET L_PR IDENTIFIER COMMA IDENTIFIER . R_PR  (77)
+
+	R_PR  shift 197
+	.  error
+
+
+state 189
+	set_intersection : INTERSECTION_SET L_PR IDENTIFIER COMMA IDENTIFIER . R_PR  (78)
+
+	R_PR  shift 198
+	.  error
+
+
+state 190
+	set_inclusion : INCLUSION_SET L_PR set_element COMMA IDENTIFIER . R_PR  (79)
+
+	R_PR  shift 199
+	.  error
+
+
+state 191
+	if : IF L_PR expr R_PR L_CB statements R_CB . ELSE L_CB statements R_CB  (42)
+
+	ELSE  shift 200
+	.  error
+
+
+state 192
+	if : IF L_PR function_call R_PR L_CB statements R_CB . ELSE L_CB statements R_CB  (43)
+
+	ELSE  shift 201
+	.  error
+
+
+state 193
+	if : IF L_PR set_opr R_PR L_CB statements R_CB . ELSE L_CB statements R_CB  (44)
+
+	ELSE  shift 202
+	.  error
+
+
+state 194
+	while_loop : WHILE L_PR expr R_PR L_CB statements R_CB .  (47)
+
+	.  reduce 47
+
+
+state 195
+	foreach_loop : FOREACH L_PR foreach_expr R_PR L_CB statements R_CB .  (48)
+
+	.  reduce 48
+
+
+state 196
+	function_new : FUNCTION function_name L_PR params R_PR L_CB statements . R_CB  (52)
+
+	R_CB  shift 203
+	.  error
+
+
+state 197
+	set_union : UNION_SET L_PR IDENTIFIER COMMA IDENTIFIER R_PR .  (77)
+
+	.  reduce 77
+
+
+state 198
+	set_intersection : INTERSECTION_SET L_PR IDENTIFIER COMMA IDENTIFIER R_PR .  (78)
+
+	.  reduce 78
+
+
+state 199
+	set_inclusion : INCLUSION_SET L_PR set_element COMMA IDENTIFIER R_PR .  (79)
+
+	.  reduce 79
+
+
+state 200
+	if : IF L_PR expr R_PR L_CB statements R_CB ELSE . L_CB statements R_CB  (42)
+
+	L_CB  shift 204
+	.  error
+
+
+state 201
+	if : IF L_PR function_call R_PR L_CB statements R_CB ELSE . L_CB statements R_CB  (43)
+
+	L_CB  shift 205
+	.  error
+
+
+state 202
+	if : IF L_PR set_opr R_PR L_CB statements R_CB ELSE . L_CB statements R_CB  (44)
+
+	L_CB  shift 206
+	.  error
+
+
+state 203
+	function_new : FUNCTION function_name L_PR params R_PR L_CB statements R_CB .  (52)
+
+	.  reduce 52
+
+
+state 204
+	if : IF L_PR expr R_PR L_CB statements R_CB ELSE L_CB . statements R_CB  (42)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 207
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 205
+	if : IF L_PR function_call R_PR L_CB statements R_CB ELSE L_CB . statements R_CB  (43)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 208
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 206
+	if : IF L_PR set_opr R_PR L_CB statements R_CB ELSE L_CB . statements R_CB  (44)
+
+	INTEGER  shift 5
+	BOOLEAN  shift 6
+	CHAR  shift 7
+	FLOAT  shift 8
+	INTEGER_VALUE  shift 9
+	FLOAT_VALUE  shift 10
+	COMMENT_START  shift 11
+	DELETE_SET  shift 12
+	ADD_TO_SET  shift 13
+	REMOVE_FROM_SET  shift 14
+	READ_FILE  shift 15
+	WRITE_FILE  shift 16
+	INPUT  shift 17
+	OUTPUT  shift 18
+	IF  shift 19
+	WHILE  shift 20
+	FOREACH  shift 21
+	FUNCTION  shift 22
+	RETURN  shift 23
+	IDENTIFIER  shift 24
+	.  error
+
+	statements  goto 209
+	statement  goto 26
+	comment  goto 27
+	loop  goto 28
+	expr  goto 29
+	conditional  goto 30
+	function_new  goto 31
+	io_opr  goto 32
+	set_expr  goto 33
+	function_call  goto 34
+	return  goto 35
+	form  goto 36
+	float  goto 37
+	set_element  goto 38
+	if  goto 39
+	while_loop  goto 40
+	foreach_loop  goto 41
+	function_name  goto 42
+	set_del  goto 43
+	set_add  goto 44
+	set_remove  goto 45
+	read_file  goto 46
+	write_file  goto 47
+	input  goto 48
+	output  goto 49
+
+
+state 207
+	if : IF L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements . R_CB  (42)
+
+	R_CB  shift 210
+	.  error
+
+
+state 208
+	if : IF L_PR function_call R_PR L_CB statements R_CB ELSE L_CB statements . R_CB  (43)
+
+	R_CB  shift 211
+	.  error
+
+
+state 209
+	if : IF L_PR set_opr R_PR L_CB statements R_CB ELSE L_CB statements . R_CB  (44)
+
+	R_CB  shift 212
+	.  error
+
+
+state 210
+	if : IF L_PR expr R_PR L_CB statements R_CB ELSE L_CB statements R_CB .  (42)
+
+	.  reduce 42
+
+
+state 211
+	if : IF L_PR function_call R_PR L_CB statements R_CB ELSE L_CB statements R_CB .  (43)
+
+	.  reduce 43
+
+
+state 212
+	if : IF L_PR set_opr R_PR L_CB statements R_CB ELSE L_CB statements R_CB .  (44)
+
+	.  reduce 44
+
+
+Rules never reduced:
+	set_new : IDENTIFIER EQUALS_TO set  (73)
+
+
+59 terminals, 44 nonterminals
+95 grammar rules, 213 states
